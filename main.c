@@ -97,9 +97,9 @@ void formul(char ns, short ti, short th, short tt) {
         dc = (double)dc * const_mult;
         temp = (double) (dc - const_r);
         temp = (double) temp / const_d;
-        printf("\r\n&%u&%3.4f/", ns, temp);
+        printf(";%u;%3.4f&\r\n", ns, temp);
     } else
-        printf("\r\n&%u&Err/", ns);
+        printf(";%u;Err&\r\n", ns);
     if (deb == 1) {
         printf("\r\ndc=%3.6f", dc);
         printf("\r\nti=%u", ti);
@@ -108,7 +108,7 @@ void formul(char ns, short ti, short th, short tt) {
     }
 }
 
-void formulx(short ns, short ti, short th, short tt) {
+void formulx(short ns, short th, short tt) {
     if (th != 0 && tt != 0 && th < tt) {
         double dc = (double) th / tt;
         acumulador[ns] += dc;
@@ -229,14 +229,14 @@ void tomdat() {
     s8.th = IC8BUF - s8.tinit;
     s8.tt = IC8BUF - s8.tinit;
     dis();
-    formulx(1, s1.tinit, s1.th, s1.tt);
-    formulx(2, s2.tinit, s2.th, s2.tt);
-    formulx(3, s3.tinit, s3.th, s3.tt);
-    formulx(4, s4.tinit, s4.th, s4.tt);
-    formulx(5, s5.tinit, s5.th, s5.tt);
-    formulx(6, s6.tinit, s6.th, s6.tt);
-    formulx(7, s7.tinit, s7.th, s7.tt);
-    formulx(8, s8.tinit, s8.th, s8.tt);
+    formulx(1, s1.th, s1.tt);
+    formulx(2, s2.th, s2.tt);
+    formulx(3, s3.th, s3.tt);
+    formulx(4, s4.th, s4.tt);
+    formulx(5, s5.th, s5.tt);
+    formulx(6, s6.th, s6.tt);
+    formulx(7, s7.th, s7.tt);
+    formulx(8, s8.th, s8.tt);
 }
 
 void tomdatp() {
@@ -454,9 +454,9 @@ void report(short ns) {
         double calc1 = (double) acumulador[ns] * const_mult;
         double calc2 = (double) calc1 - const_res;
         double temp = (double) calc2 / const_div;
-        printf("\r\n&%u&%3.4f/", ns, temp);
+        printf(";%u;%3.4f&\r\n", ns, temp);
     } else {
-        printf("\r\n&%u&Err/", ns);
+        printf(";%u;Err&\r\n", ns);
     }
 }
 
@@ -613,15 +613,15 @@ int main(int argc, char** argv) {
     //    U1STAbits.URXDA //recurso, datos recibidos
 
     //Protocolo Inicial
-    printf("\r\nLT8-WL");
-    printf("\r\nSensores:");
+    printf("LT8-WL\r\n");
+    printf("Sensores:\r\n");
     tomdatp();
-    printf("\r\nFuncionamiento Correcto");
-    printf("\r\nEsperando Comandos.....");
+    printf("Funcionamiento Correcto\r\n");
+    printf("Esperando Comandos.....\r\n");
     ///////////////////
     while (1) {
         if (ti == 1) {
-            printf("\r\nToma de %u Muestras Iniciada!#", cant);
+            printf("Toma de %u Muestras Iniciada!#\r\n", cant);
             ti = 0;
         }
         cont = 0;
@@ -637,8 +637,8 @@ int main(int argc, char** argv) {
                 report(6);
                 report(7);
                 report(8);
-                printf("\r\n#Toma de %u Muestras Terminada!", cant);
-                printf("\r\n#%u#$", cant);
+                printf("#Toma de %u Muestras Terminada!\r\n", cant);
+                printf("#%u#/", cant);
                 cant = 0;
                 itm = 0;
                 CN = 0;
