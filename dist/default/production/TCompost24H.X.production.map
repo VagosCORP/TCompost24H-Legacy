@@ -1,4 +1,4 @@
-Microchip Technology Inc, vÀŠš
+Microchip Technology Inc, vðŠ{
 
 Tool Name:
   g:\microchip\xc16\v1.21\bin\bin\..\bin/elf-ld.exe
@@ -136,11 +136,11 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200              0x16fa          0x2277  (8823)
 .const                      0x18fa                0xca           0x12f  (303)
-.text                       0x19c4               0xd7a          0x1437  (5175)
-.dinit                      0x273e               0x21c           0x32a  (810)
-.init.delay32               0x295a                0x1c            0x2a  (42)
+.text                       0x19c4               0xd80          0x1440  (5184)
+.dinit                      0x2744               0x21c           0x32a  (810)
+.init.delay32               0x2960                0x1c            0x2a  (42)
 
-                     Total program memory used (bytes):         0x3b31  (15153) 11%
+                     Total program memory used (bytes):         0x3b3a  (15162) 11%
 
 
 Data Memory  [Origin = 0x800, Length = 0x2000]
@@ -313,7 +313,7 @@ External Symbols in Program Memory (by address):
                   0x0023a8                  __IC8Interrupt
                   0x0023ec                  _report
                   0x00245a                  _main
-                  0x00295a                  ___delay32
+                  0x002960                  ___delay32
 
 External Symbols in Program Memory (by name):
 
@@ -329,7 +329,7 @@ External Symbols in Program Memory (by name):
                   0x00217e                  __U1RXInterrupt
                   0x001128                  ___adddf3
                   0x00029a                  ___addsf3
-                  0x00295a                  ___delay32
+                  0x002960                  ___delay32
                   0x001236                  ___divdf3
                   0x00175e                  ___divdi3
                   0x000354                  ___divsf3
@@ -641,9 +641,9 @@ __FUID3
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x227 build/default/production/_ext/1032485656/main.o
 
-.debug_line       0x000000       0x102f
+.debug_line       0x000000       0x1037
  *(.debug_line)
- .debug_line      0x000000       0x102f build/default/production/_ext/1032485656/main.o
+ .debug_line      0x000000       0x1037 build/default/production/_ext/1032485656/main.o
 
 .debug_frame      0x000000        0x28c
  *(.debug_frame)
@@ -1821,8 +1821,8 @@ __c30_signature
 .const              0x98fa         0xca load address 0x0018fa  
  .const             0x98fa         0xca build/default/production/_ext/1032485656/main.o
 
-.text             0x0019c4        0xd7a
- .text            0x0019c4        0xd7a build/default/production/_ext/1032485656/main.o
+.text             0x0019c4        0xd80
+ .text            0x0019c4        0xd80 build/default/production/_ext/1032485656/main.o
                   0x0019c4                  _putch
                   0x0019dc                  _formul
                   0x001ac2                  _formulx
@@ -1844,9 +1844,9 @@ __c30_signature
                   0x0023ec                  _report
                   0x00245a                  _main
 
-.dinit            0x00273e        0x21c
- .dinit           0x00273e        0x21c data_init
+.dinit            0x002744        0x21c
+ .dinit           0x002744        0x21c data_init
 
-.init.delay32     0x00295a         0x1c
- .init.delay32    0x00295a         0x1c g:/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(delay32.eo)
-                  0x00295a                  ___delay32
+.init.delay32     0x002960         0x1c
+ .init.delay32    0x002960         0x1c g:/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(delay32.eo)
+                  0x002960                  ___delay32

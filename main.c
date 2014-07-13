@@ -71,9 +71,6 @@ struct sen {
     uint16_t tinit : 16;
     uint16_t th : 16;
     uint16_t tt : 16;
-    //    uint16_t fail: 16;
-    //    double acumul: 32;
-
 }
 s1 = {0, 0, 0, 0},
 s2 = {0, 0, 0, 0},
@@ -584,6 +581,7 @@ int main(int argc, char** argv) {
     IEC1bits.IC8IE = 0; // inhabilitar interrupcion de Captura8
 
     /////////Configuración UART 1/////////
+    //    U1BRG = 259; //BaudRate = 9600;
     U1BRG = 64; //BaudRate = 38400;
     //    U1BRG = 21; //BaudRate = 115200;
     U1MODEbits.USIDL = 0; //1?
@@ -613,6 +611,7 @@ int main(int argc, char** argv) {
     //    U1STAbits.URXDA //recurso, datos recibidos
 
     //Protocolo Inicial
+    delay_ms(1000);
     printf("LT8-WL\r\n");
     printf("Sensores:\r\n");
     tomdatp();
