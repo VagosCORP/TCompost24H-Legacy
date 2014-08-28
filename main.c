@@ -109,9 +109,8 @@ void formulx(short ns, short th, short tt) {
     if (th != 0 && tt != 0 && th < tt) {
         double dc = (double) th / tt;
         acumulador[ns] += dc;
-    } else {
+    } else
         fail[ns]++;
-    }
 }
 
 void dis() {
@@ -277,17 +276,10 @@ void tomdatp() {
 }
 
 //void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void) {
-//    TERR = 1;
-//    IEC0bits.T2IE = 0; //disable_interrupts(INT_TIMER2);
-//    IFS0bits.T2IF = 0; // Clear Timer1 Interrupt Flag}
+//    IFS0bits.T2IF = 0; // Clear Timer2 Interrupt Flag}
 //}
 
 //void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void) {
-//    concon++;
-//    if (concon > 125) {
-//        led = ~led;
-//        concon = 0;
-//    }
 //    IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag}
 //}
 
@@ -332,6 +324,34 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void) {
             {
                 //Modo número: Número de muestras*250
                 CN = 1;
+                break;
+            }
+            case('V'):
+            {
+                //Encender Bomba
+                LATGbits.LATG2 = 1;
+                break;
+            }
+            case('W'):
+            {
+                //Apagar Bomba
+                LATGbits.LATG2 = 0;
+                break;
+            }
+            case('Y'):
+            {
+                //Consulta de estado de la bomba
+                if(LATGbits.LATG2) {
+                    if(!PORTGbits.RG3)
+                        printf(";9;1&\r\n"); //Encendido
+                    else
+                        printf(";9;3&\r\n"); //Error
+                }else {
+                   if(PORTGbits.RG3)
+                        printf(";9;0&\r\n"); //Apagado
+                   else
+                        printf(";9;3&\r\n"); //Error
+                }
                 break;
             }
         }
@@ -459,7 +479,7 @@ void report(short ns) {
 
 int main(int argc, char** argv) {
 
-    /////////Configuración de Clock/////////
+    /////////Configuracion de Clock/////////
     CLKDIVbits.ROI = 0;
     CLKDIVbits.DOZE = 0b000;
     CLKDIVbits.DOZEN = 0;
@@ -477,7 +497,7 @@ int main(int argc, char** argv) {
     while (!OSCCONbits.LOCK);
     //////////////////////////////////////////////
 
-    //Inicialización de Variables//
+    //Inicializacion de Variables//
     cha = 'Q';
     cant = 0;
     cont = 0;
@@ -491,36 +511,35 @@ int main(int argc, char** argv) {
     TRISBbits.TRISB4 = 1;
     TRISBbits.TRISB5 = 1;
     TRISFbits.TRISF2 = 1; //U1RX
-    TRISGbits.TRISG2 = 0;
-    TRISGbits.TRISG3 = 1;
-    TRISFbits.TRISF6 = 0;
-    LATGbits.LATG2 = 1;
-    LATFbits.LATF6 = 0;
-    if (PORTGbits.RG3)
+    TRISGbits.TRISG2 = 0;//Activador de Bomba
+    TRISGbits.TRISG3 = 1;//FeedBack bomba
+    TRISFbits.TRISF6 = 1;//Modo debug segun estado (1 o 0)
+    LATGbits.LATG2 = 0;
+    if (PORTFbits.RF6)
         deb = 1;
-    //    /////////Configuración timer 1/////////
-    //    T1CONbits.TSIDL = 1;
-    //    T1CONbits.TCS = 0;
-    //    T1CONbits.TGATE = 0;
-    //    T1CONbits.TCKPS = 0b00; //1:1 PreScaller 0.0625 us per ++
-    //    PR1 = 65535; //periodo del timer 1
-    //    IPC0bits.T1IP = 5; // Prioridad 1 para inttimer1
-    //    IFS0bits.T1IF = 0; // limpiar flag de interrupcion 1
-    //    IEC0bits.T1IE = 1; // habilitar interrupcion del timer1
-    //    T1CONbits.TON = 1; // iniciar timer 1
+//    /////////Configuracion timer 1/////////
+//    T1CONbits.TSIDL = 1;
+//    T1CONbits.TCS = 0;
+//    T1CONbits.TGATE = 0;
+//    T1CONbits.TCKPS = 0b11; //1:256 PreScaller 16 us per ++
+//    PR1 = 62500; //periodo del timer 1 = 1 sec
+//    IPC0bits.T1IP = 5; // Prioridad 1 para inttimer1
+//    IFS0bits.T1IF = 0; // limpiar flag de interrupcion 1
+//    IEC0bits.T1IE = 0; // habilitar interrupcion del timer1
+//    T1CONbits.TON = 1; // iniciar timer 1
 
-    ///////Configuración timer 2/////////
+    ///////Configuracion timer 2/////////
     T2CONbits.TSIDL = 1;
     T2CONbits.TCS = 0;
     T2CONbits.TGATE = 0;
-    T2CONbits.TCKPS = 0b00; //1:8 PreScaller 0.5us per ++
+    T2CONbits.TCKPS = 0b00; //1:1 PreScaller 0.0625 us per ++
     PR2 = 65535; //periodo del timer 2
     IPC1bits.T2IP = 5; // Prioridad 1 para inttimer2
     IFS0bits.T2IF = 0; // limpiar flag de interrupcion 2
     IEC0bits.T2IE = 0; // habilitar interrupcion del timer2
     T2CONbits.TON = 1; // iniciar timer 2
 
-    ////////////configuración de ICx///////
+    ////////////configuracion de ICx///////
     limpiar();
     IC1CONbits.ICSIDL = 1; //free-Running Mode  //0b10100; //IC1 Trig Souce  = IC1 pin
     IC2CONbits.ICSIDL = 1; //free-Running Mode  //0b10101; //IC2 Trig Souce  = IC2 pin
@@ -580,7 +599,7 @@ int main(int argc, char** argv) {
     IEC1bits.IC7IE = 0; // inhabilitar interrupcion de Captura7
     IEC1bits.IC8IE = 0; // inhabilitar interrupcion de Captura8
 
-    /////////Configuración UART 1/////////
+    /////////Configuracion UART 1/////////
     //    U1BRG = 259; //BaudRate = 9600;
     U1BRG = 64; //BaudRate = 38400;
     //    U1BRG = 21; //BaudRate = 115200;
@@ -604,7 +623,7 @@ int main(int argc, char** argv) {
     U1STAbits.RIDLE = 0;
     U1MODEbits.UARTEN = 1;
     U1STAbits.UTXEN = 1;
-    IPC2bits.U1RXIP = 2; // Prioridad 1 para inttimer1
+    IPC2bits.U1RXIP = 2; // Prioridad 2 para U1RX
     IFS0bits.U1RXIF = 0;
     IEC0bits.U1RXIE = 1;
     //    U1STAbits.UTXBF //recurso, buffer vacio
@@ -646,4 +665,3 @@ int main(int argc, char** argv) {
     }
     return 1;
 }
-
