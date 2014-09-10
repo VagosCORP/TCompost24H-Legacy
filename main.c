@@ -341,17 +341,19 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void) {
             case('Y'):
             {
                 //Consulta de estado de la bomba
+                printf("\r\nEstado Bomba#\r\n");
                 if(LATGbits.LATG2) {
                     if(!PORTGbits.RG3)
                         printf(";9;1&\r\n"); //Encendido
                     else
-                        printf(";9;3&\r\n"); //Error
+                        printf(";9;2&\r\n"); //Error
                 }else {
                    if(PORTGbits.RG3)
                         printf(";9;0&\r\n"); //Apagado
                    else
                         printf(";9;3&\r\n"); //Error
                 }
+                printf("#/");
                 break;
             }
         }
@@ -639,7 +641,7 @@ int main(int argc, char** argv) {
     ///////////////////
     while (1) {
         if (ti == 1) {
-            printf("Toma de %u Muestras Iniciada!#\r\n", cant);
+            printf("\r\nToma de %u Muestras Iniciada!#\r\n", cant);
             ti = 0;
         }
         cont = 0;

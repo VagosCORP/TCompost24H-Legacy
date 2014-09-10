@@ -27,7 +27,7 @@ MP_CC="G:\Microchip\xc16\v1.21\bin\xc16-gcc.exe"
 MP_AS="G:\Microchip\xc16\v1.21\bin\xc16-as.exe"
 # MP_LD is not defined
 MP_AR="G:\Microchip\xc16\v1.21\bin\xc16-ar.exe"
-DEP_GEN=${MP_JAVA_PATH}java -jar "G:/Microchip/MPLABX/mplab_ide/mplab_ide/modules/../../bin/extractobjectdependencies.jar" 
+DEP_GEN=${MP_JAVA_PATH}java -jar "G:/Microchip/MPLABX/mplab_ide/mplab_ide/modules/../../bin/extractobjectdependencies.jar"
 MP_CC_DIR="G:\Microchip\xc16\v1.21\bin"
 # MP_CPPC_DIR is not defined
 # MP_BC_DIR is not defined
